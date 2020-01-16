@@ -1,0 +1,40 @@
+/dts-v1/;
+/plugin/;
+
+/*
+ * Android fstab extensions to mount vendor during first stage init
+ */
+
+/ {
+	compatible = "brcm,bcm2835";
+
+	fragment@0 {
+		target-path = "/";
+
+		__overlay__ {
+
+			firmware {
+				android {
+					compatible = "android,firmware";
+					fstab {
+						compatible = "android,fstab";
+						system {
+							compatible = "android,system";
+							dev = "/dev/block/platform/soc/3f202000.mmc/by-name/system";
+							type = "ext4";
+							mnt_flags = "ro";
+							fsmgr_flags = "wait";
+							};
+						vendor {
+							compatible = "android,vendor";
+							dev = "/dev/block/platform/soc/3f202000.mmc/by-name/vendor";
+							type = "ext4";
+							mnt_flags = "ro";
+							fsmgr_flags = "wait";
+						};
+					};
+				};
+			};
+		};
+	};
+};
